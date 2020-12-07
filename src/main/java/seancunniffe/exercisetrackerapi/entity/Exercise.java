@@ -22,9 +22,11 @@ public class Exercise {
     @Column(name="image_url")
     String imageUrl;
 
-    @Column(name="equipment")
-    String equipment;
+    @ManyToOne
+    @JoinColumn(name="equipment")
+    Equipment equipment;
 
-    @Column(name="target_muscle")
-    String targetMuscle;
+    @ManyToOne
+    @JoinColumn(name="target_muscle")
+    Muscle targetMuscle;
 }
