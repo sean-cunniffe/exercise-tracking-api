@@ -1,6 +1,7 @@
 package seancunniffe.exercisetrackerapi.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,14 +46,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         String username = null;
         String jwt = null;
+        String tokenType = "";
         try {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 
                 jwt = authorizationHeader.substring(7);
                 username = jwtUtil.extractUsername(jwt);
+                tokenType = jwtUtil.extractType(jwt);
             }
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && tokenType.equals(JwtUtil.TOKEN_TYPE_ACCESS)) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
                 if (jwtUtil.validateToken(jwt, userDetails)) {
@@ -65,7 +68,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
-        } catch (JwtException e) {
+        }
+        catch (JwtException e) {
             //TODO create advice
             e.printStackTrace();
             httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
@@ -73,6 +77,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             ErrorResponse errorResponse = new ErrorResponse(httpServletResponse.getStatus(),
                     "Token Invalid",
                     System.currentTimeMillis());
+
+            //change message depending on error
+            if(e instanceof ExpiredJwtException){
+                errorResponse.setMessage("Token Expired");
+            }
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(httpServletResponse.getOutputStream(),

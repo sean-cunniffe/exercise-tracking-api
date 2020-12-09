@@ -31,3 +31,18 @@ create table exercises
     FOREIGN KEY (equipment) REFERENCES equipment (equipment_name),
     FOREIGN KEY (target_muscle) REFERENCES muscles (muscle_name)
 );
+
+create table workout
+(
+    id INT AUTO_INCREMENT NOT NULL,
+    exercise_id INT NOT NULL,
+    user_id INT NOT NULL,
+    reps INT,
+    weight_used DOUBLE,
+    work_time_seconds INT,
+    rest_time_seconds INT,
+    date_time_complete DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (exercise_id) references exercises(id),
+    FOREIGN KEY (user_id) references user_info(id)
+);

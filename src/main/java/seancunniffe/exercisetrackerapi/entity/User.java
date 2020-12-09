@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="user_info")
@@ -27,6 +28,9 @@ public class User {
 
     @Column(name="roles")
     String roles;
+
+    @OneToMany(mappedBy = "user")
+    Set<Workout> workouts;
 
     public boolean isActive(){
         return active;

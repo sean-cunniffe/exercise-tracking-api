@@ -40,17 +40,4 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
         System.out.println("Commence");
         resolver.resolveException(request, response, AuthenticateController.class,exception);
     }
-
-//    @Override
-//    public void commence(HttpServletRequest httpServletRequest,
-//                         HttpServletResponse httpServletResponse,
-//                         AuthenticationException e) throws IOException, ServletException {
-////        httpServletResponse.setContentType("application/json");
-//        ObjectMapper mapper = new ObjectMapper();
-////        mapper.writeValue(httpServletResponse.getOutputStream(),
-////                new ErrorResponse(httpServletResponse.getStatus(),
-////                        e.getLocalizedMessage(),
-////                        System.currentTimeMillis()));
-//        httpServletResponse.sendError(httpServletResponse.getStatus(),"Token Invalid");
-//    }
 }

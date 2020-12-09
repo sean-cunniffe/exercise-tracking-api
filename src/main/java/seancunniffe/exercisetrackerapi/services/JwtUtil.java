@@ -16,9 +16,9 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    public static final String TYPE_ACCESS = "access";
-    public static final String TYPE_REFRESH = "refresh";
-    public static final String TYPE_KEY = "token_type";
+    public static final String TOKEN_TYPE_ACCESS = "access";
+    public static final String TOKEN_TYPE_REFRESH = "refresh";
+    public static final String TOKEN_TYPE_KEY = "token_type";
 
 
     @Value("${jwt.secret}")
@@ -58,21 +58,21 @@ public class JwtUtil {
      * @return
      */
     public String generateAccessToken(String refreshToken){
-        //TODO generate access token based on refresh token
-        if(validateTokenType(refreshToken,TYPE_REFRESH)) {
+        if(validateTokenType(refreshToken, TOKEN_TYPE_REFRESH)) {
             String username = extractUsername(refreshToken);
             Map<String, Object> claims = new HashMap<>();
-            claims.put(TYPE_KEY,TYPE_ACCESS);
+            claims.put(TOKEN_TYPE_KEY, TOKEN_TYPE_ACCESS);
+            claims.put("username",username);
             return createToken(claims, username, accessTime);
         }else{
             throw new JwtException("Invalid token");
-            //TODO not refresh token, throw error
         }
     }
 
     public String generateRefreshToken(UserDetails userDetails){
         Map<String, Object> claims = new HashMap<>();
-        claims.put(TYPE_KEY,TYPE_REFRESH);
+        claims.put(TOKEN_TYPE_KEY, TOKEN_TYPE_REFRESH);
+        claims.put("username",userDetails.getUsername());
         return createToken(claims,userDetails.getUsername(),refreshTime);
     }
 
@@ -92,7 +92,12 @@ public class JwtUtil {
 
     public boolean validateTokenType(String token,String type) {
         Claims claims = extractAllClaims(token);
-        String claimType = (String) claims.get(TYPE_KEY);
+        String claimType = (String) claims.get(TOKEN_TYPE_KEY);
         return claimType.equals(type);
+    }
+
+    public String extractType(String jwt) {
+        Claims claims = extractAllClaims(jwt);
+        return claims.get(TOKEN_TYPE_KEY,String.class);
     }
 }

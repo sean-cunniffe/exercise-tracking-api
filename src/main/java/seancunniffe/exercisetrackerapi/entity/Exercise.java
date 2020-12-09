@@ -1,9 +1,11 @@
 package seancunniffe.exercisetrackerapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Table(name="exercises")
 @Entity
@@ -29,4 +31,8 @@ public class Exercise {
     @ManyToOne
     @JoinColumn(name="target_muscle")
     Muscle targetMuscle;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "exercise")
+    Set<Workout> workouts;
 }

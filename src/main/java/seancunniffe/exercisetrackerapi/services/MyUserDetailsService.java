@@ -1,14 +1,12 @@
 package seancunniffe.exercisetrackerapi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import seancunniffe.exercisetrackerapi.dao.UserRepository;
+import seancunniffe.exercisetrackerapi.dao.UserAuthRepository;
 import seancunniffe.exercisetrackerapi.entity.User;
 import seancunniffe.exercisetrackerapi.exceptions.IncorrectPasswordException;
 
@@ -17,12 +15,12 @@ import java.util.Optional;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    UserRepository userRepository;
+    UserAuthRepository userRepository;
     PasswordEncoder encoder;
 
 
     @Autowired
-    public MyUserDetailsService(UserRepository userRepository, MyPasswordEncoder encoder) {
+    public MyUserDetailsService(UserAuthRepository userRepository, MyPasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
     }

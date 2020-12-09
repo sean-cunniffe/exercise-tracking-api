@@ -1,6 +1,8 @@
 insert into user_info(username, password, roles, active)
 values ('sean',
-        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti', 'ROLE_ADMIN', true);
+        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti', 'ROLE_ADMIN', true),
+       ('john',
+        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti','ROLE_USER',true);
 
 
 insert into equipment(equipment_name)
@@ -8337,3 +8339,5 @@ values ('Rickshaw Carry', 'https://www.bodybuilding.com/exercises/exerciseImages
      , ('Banded squat toe tap',
         'https://www.bodybuilding.com/images/2020/xdb/2020_xdb_384s_banded_squat_toe_tap_m_still007_square.jpg',
         'Bands', 'Quadriceps');
+
+insert into workout(exercise_id,user_id,reps,weight_used)values(1,1,5,100);

@@ -30,6 +30,8 @@ public class AuthenticateController {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> UsernameNotFoundExceptionHandler(AuthenticationException e) {
+        //TODO more detailed error messages
+        System.out.println("Exception Caught");
         ErrorResponse response =
                 new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
