@@ -72,6 +72,14 @@ public class User {
         this.id = id;
     }
 
+    public Set<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(Set<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -37,7 +37,6 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception){
-        System.out.println("Commence");
-        resolver.resolveException(request, response, AuthenticateController.class,exception);
+        resolver.resolveException(request, response, null ,exception);
     }
 }

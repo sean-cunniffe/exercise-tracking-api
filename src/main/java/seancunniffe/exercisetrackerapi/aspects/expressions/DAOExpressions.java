@@ -14,5 +14,4 @@ public class DAOExpressions {
 
     @Pointcut("execution(* seancunniffe.exercisetrackerapi.dao.WorkoutRepository.*(..))")
     public void workoutRepository(){}
-
 }

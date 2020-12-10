@@ -28,21 +28,6 @@ public class AuthenticateController {
     MyUserDetailsService userDetailsService;
     JwtUtil jwtUtil;
 
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> UsernameNotFoundExceptionHandler(AuthenticationException e) {
-        //TODO more detailed error messages
-        System.out.println("Exception Caught");
-        ErrorResponse response =
-                new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> invalidTokenExceptionHandler(JwtException e){
-        ErrorResponse response =
-                new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), "Invalid Token",System.currentTimeMillis());
-        return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
-    }
 
     @Autowired
     public AuthenticateController(@Qualifier("myUserDetailsService") MyUserDetailsService userDetailsService, JwtUtil jwtUtil) {

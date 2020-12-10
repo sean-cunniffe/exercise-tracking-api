@@ -5,6 +5,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import seancunniffe.exercisetrackerapi.exceptions.ErrorResponse;
 import seancunniffe.exercisetrackerapi.services.JwtUtil;
 import seancunniffe.exercisetrackerapi.services.MyUserDetailsService;
@@ -29,11 +31,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     JwtUtil jwtUtil;
     MyUserDetailsService userDetailsService;
+    HandlerExceptionResolver resolver;
+
     @Autowired
-    public JwtRequestFilter(JwtUtil jwtUtil, MyUserDetailsService userDetailsService) {
+    public JwtRequestFilter(JwtUtil jwtUtil, MyUserDetailsService userDetailsService, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.resolver = resolver;
     }
+
 
     /*
     Overriding default authentication using jwt
@@ -69,24 +75,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
-        catch (JwtException e) {
-            //TODO create advice
-            e.printStackTrace();
-            httpServletResponse.setStatus(HttpStatus.FORBIDDEN.value());
-            httpServletResponse.setContentType("application/json");
-            ErrorResponse errorResponse = new ErrorResponse(httpServletResponse.getStatus(),
-                    "Token Invalid",
-                    System.currentTimeMillis());
-
-            //change message depending on error
-            if(e instanceof ExpiredJwtException){
-                errorResponse.setMessage("Token Expired");
-            }
-
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(httpServletResponse.getOutputStream(),
-                    errorResponse);
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        catch (Exception e) {
+            //cannot throw this exception to be handled normal so we manually delegate the exception to the handler
+            resolver.resolveException(httpServletRequest,httpServletResponse,null,e);
         }
     }
 

@@ -37,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-//                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-//                .and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and()
                 //make stateless because we're using jwt
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

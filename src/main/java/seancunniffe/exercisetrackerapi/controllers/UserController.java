@@ -25,16 +25,6 @@ public class UserController {
     private final UserAuthRepository userAuthRepository;
     private final UserRepository userRepository;
 
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(ErrorResponse e){
-        return new ResponseEntity<>(e, HttpStatus.valueOf(e.getStatus()));
-    }
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> exceptionHandler(AuthenticationException e){
-        System.out.println("exception handled");
-        ErrorResponse response = new ErrorResponse(403,e.getMessage(),System.currentTimeMillis());
-        return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
-    }
 
     @Autowired
     public UserController( UserAuthRepository userAuthRepository, PasswordEncoder encoder,UserRepository userRepository) {

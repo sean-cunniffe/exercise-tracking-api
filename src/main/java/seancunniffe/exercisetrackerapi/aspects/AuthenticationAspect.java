@@ -1,6 +1,7 @@
 package seancunniffe.exercisetrackerapi.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,12 @@ public class AuthenticationAspect {
      */
     @Around("seancunniffe.exercisetrackerapi.aspects.expressions.DAOExpressions.userRepository()")
     public Object checkUsersRole(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
         System.out.println("Advice");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> grantedAuthority = AuthorityUtils.authorityListToSet(auth.getAuthorities());
         String username = null;
+        //get username of profile the auth user is trying to access
         for (Object obj : proceedingJoinPoint.getArgs()) {
             System.out.println(obj);
             if (obj instanceof String) {
@@ -41,7 +44,6 @@ public class AuthenticationAspect {
                 break;
             }
         }
-
         Object result = null;
         if (username == null) {
             //if request doesnt specify a user to CRUD
@@ -65,10 +67,12 @@ public class AuthenticationAspect {
         System.out.println(Arrays.toString(args));
 
 
+
         return proceedingJoinPoint.proceed();
         //throw error for debugging
 //        throw new AuthenticationServiceException("Access Denied"); //handled by JpaRepository error handling
     }
+
 
     public Object adminAuth(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
