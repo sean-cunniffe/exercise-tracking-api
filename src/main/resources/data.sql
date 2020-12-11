@@ -1,8 +1,8 @@
-insert into user_info(username, password, roles, active)
+insert into user_info(username, password,email, roles, active)
 values ('sean',
-        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti', 'ROLE_ADMIN', true),
+        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti','sean.cunniffe927@gmail.com', 'ROLE_ADMIN', true),
        ('john',
-        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti','ROLE_USER',true);
+        '$2a$10$sKXKS5/1AxdkLV6.WfOlbuBBlFTdddY8syRBInhHRIdXzxyRQgRti','john.doe@gmail.com','ROLE_USER',true);
 
 
 insert into equipment(equipment_name)

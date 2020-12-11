@@ -2,6 +2,7 @@ create table user_info
 (
     id       INT AUTO_INCREMENT NOT NULL,
     username varchar(100)       NOT NULL unique,
+    email    varchar(150)       NOT NULL unique,
     password varchar(200)       NOT NULL,
     roles    varchar(100)       NOT NULL,
     active   boolean            NOT NULL,
@@ -34,15 +35,15 @@ create table exercises
 
 create table workout
 (
-    id INT AUTO_INCREMENT NOT NULL,
-    exercise_id INT NOT NULL,
-    user_id INT NOT NULL,
-    reps INT,
-    weight_used DOUBLE,
-    work_time_seconds INT,
-    rest_time_seconds INT,
+    id                 INT AUTO_INCREMENT NOT NULL,
+    exercise_id        INT                NOT NULL,
+    user_id            INT                NOT NULL,
+    reps               INT,
+    weight_used        DOUBLE,
+    work_time_seconds  INT,
+    rest_time_seconds  INT,
     date_time_complete DATETIME,
     PRIMARY KEY (id),
-    FOREIGN KEY (exercise_id) references exercises(id),
-    FOREIGN KEY (user_id) references user_info(id)
+    FOREIGN KEY (exercise_id) references exercises (id),
+    FOREIGN KEY (user_id) references user_info (id)
 );

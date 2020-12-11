@@ -29,6 +29,9 @@ public class User {
     @Column(name="roles")
     String roles;
 
+    @Column(name="email")
+    String email;
+
     @OneToMany(mappedBy = "user")
     Set<Workout> workouts;
 
