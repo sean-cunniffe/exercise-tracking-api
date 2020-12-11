@@ -29,8 +29,8 @@ public class AuthenticateController {
     /**
      * responses with refresh token
      *
-     * @param request
-     * @return
+     * @param request body containing username and password
+     * @return OK ResponseEntity with refresh and access token
      */
     @PostMapping("/authentication")
     public ResponseEntity<?> createRefreshAndAccessTokens(@RequestBody AuthenticationRequest request) {
@@ -46,7 +46,7 @@ public class AuthenticateController {
     /**
      * Response with access token from refresh token, refresh token is validated in security filter
      *
-     * @return
+     * @return ok response with AccessToken
      */
     @PutMapping("/authentication")
     public ResponseEntity<?> createAccessTokenFromRefreshToken(@RequestBody AccessTokenRequest request) {

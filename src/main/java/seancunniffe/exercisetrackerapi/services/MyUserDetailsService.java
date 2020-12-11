@@ -31,9 +31,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
     /**
      * Loads user by username or email
-      * @param s
-     * @return
-     * @throws UsernameNotFoundException
+      * @param s username or email string
+     * @return UserDetail by specified username or email
+     * @throws UsernameNotFoundException throws when DB return null for username and email
      */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -50,6 +50,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     /**
+     * Used in Authentication to verify the user by password
      * Gets UserDetails with matching username and password
      */
     public UserDetails loadUserByUsernameAndPassword(String username, String password)
@@ -58,6 +59,13 @@ public class MyUserDetailsService implements UserDetailsService {
         return checkPassword(password,userDetails);
     }
 
+    /**
+     * checks if testPassword matches the bcrypt password
+     * @param testPassword password being tested
+     * @param userDetails userDetail with bcrypt password
+     * @return returns userdeatil if the passwords match
+     * @throws IncorrectPasswordException throws error if password doesnt match
+     */
     private UserDetails checkPassword(String testPassword, UserDetails userDetails) throws IncorrectPasswordException {
         if (encoder.matches(testPassword, userDetails.getPassword())) {
             return userDetails;

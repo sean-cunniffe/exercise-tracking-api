@@ -21,7 +21,7 @@ public class AuthenticationAspect {
      * proceeds if the auth user is CRUDing their own info
      * or if auth user is an admin
      *
-     * @throws Throwable
+     * @throws Throwable throws error if username doesnt match or is not a admin
      */
     @Around("seancunniffe.exercisetrackerapi.aspects.expressions.DAOExpressions.userRepository()")
     public Object checkUsersRole(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
@@ -38,7 +38,7 @@ public class AuthenticationAspect {
                 break;
             }
         }
-        Object result = null;
+        Object result;
         if (username == null) {
             //if request doesnt specify a user to CRUD
             return adminAuth(proceedingJoinPoint);
