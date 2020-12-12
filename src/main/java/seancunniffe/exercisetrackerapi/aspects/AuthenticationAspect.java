@@ -69,6 +69,7 @@ public class AuthenticationAspect {
 
 
     public Object adminAuth(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        //TODO Stop users from accessing other users workouts, only allow admins
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Set<String> grantedAuthority = AuthorityUtils.authorityListToSet(auth.getAuthorities());
         if (grantedAuthority.contains("ROLE_ADMIN")) {

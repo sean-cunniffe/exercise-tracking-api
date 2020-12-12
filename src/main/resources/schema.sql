@@ -9,6 +9,16 @@ create table user_info
     PRIMARY KEY (id)
 );
 
+create table email_token_validation
+(
+    id INT AUTO_INCREMENT NOT NULL UNIQUE,
+    token_num varchar(40) NOT NULL,
+    user_id int NOT NULL,
+    expire_date DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (user_id) REFERENCES user_info(id)
+);
+
 create TABLE equipment
 (
     equipment_name varchar(200) unique,
